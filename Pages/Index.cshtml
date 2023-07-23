@@ -18,14 +18,14 @@
     <label for="n">Size of de n-grams:</label>
     <input type="number" id="n" name="n" min="1" max="10" value="3" />
     <br />
-    <input type="submit" value="Comparar Archivos" />
+    <input type="submit" value="Compare files" />
 </form>
 
 @if (Model.PlagiarismScore.HasValue)
 {
-    <h3>Resultado:</h3>
-    <p>Porcentaje de similitud: @Model.PlagiarismScore.Value%</p>
-    <p>Descargar informe: <a href="javascript:void(0);" id="downloadLink">Report.txt</a></p>
+    <h3>Results:</h3>
+    <p>Possible plagiarism percentage: @Model.PlagiarismScore.Value%</p>
+    <p>Download report: <a href="javascript:void(0);" id="downloadLink">Report.txt</a></p>
 }
 
 <script>
