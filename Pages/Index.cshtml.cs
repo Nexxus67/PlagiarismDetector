@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,16 +20,17 @@ public class IndexModel : PageModel
 
     public double? PlagiarismScore { get; private set; }
 
-    private List<string> GetNGrams(string code, int n)
+private List<string> GetNGrams(string code, int n)
+{
+    code = code.ToLower(); // Convert to lowercase
+    List<string> ngrams = new List<string>();
+    for (int i = 0; i <= code.Length - n; i++)
     {
-        List<string> ngrams = new List<string>();
-        for (int i = 0; i <= code.Length - n; i++)
-        {
-            string ngram = code.Substring(i, n);
-            ngrams.Add(ngram);
-        }
-        return ngrams;
+        string ngram = code.Substring(i, n);
+        ngrams.Add(ngram);
     }
+    return ngrams;
+}
 
     private double CalculatePlagiarismScore(string code1, string code2, int n)
     {
@@ -54,6 +56,20 @@ public class IndexModel : PageModel
         double plagiarismPercentage = (double)matches / totalNgrams * 100;
         return plagiarismPercentage;
     }
+
+    private string RemoveCommentsAndWhitespace(string code)
+{
+    // Remove single-line comments (// ...)
+    code = Regex.Replace(code, @"\/\/.*", "");
+
+    // Remove multi-line comments (/* ... */)
+    code = Regex.Replace(code, @"/\*(.|\n)*?\*/", "");
+
+    // Remove whitespaces, tabs, and newlines
+    code = Regex.Replace(code, @"\s+", "");
+
+    return code;
+}
 
     public void OnPost()
     {
