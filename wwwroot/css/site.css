@@ -1,22 +1,79 @@
-html {
+/* wwwroot/css/site.css */
+
+/* Matrix-like styles */
+body {
+  background-color: #000;
+  color: #0f0;
+  font-family: 'Courier New', monospace;
   font-size: 14px;
 }
 
+h1 {
+  color: #0f0;
+  text-align: center;
+}
+
+label {
+  color: #0f0;
+}
+
+input[type="file"],
+input[type="number"],
+input[type="submit"] {
+  background-color: #000;
+  color: #0f0;
+  border: 1px solid #0f0;
+  padding: 5px;
+  font-family: 'Courier New', monospace;
+  outline: none;
+}
+
+input[type="file"]::file-selector-button,
+input[type="submit"] {
+  cursor: pointer;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+form, h3, p {
+  text-align: center;
+}
+
+.result {
+  color: #0f0;
+  text-align: center;
+}
+
+a {
+  color: #0f0;
+  text-decoration: none;
+}
+
+/* Add matrix animation to simulate the falling code effect */
+@keyframes matrix-fall {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Apply the animation to specific elements */
+html, body, form, h1, label, input, h3, p, a {
+  animation: matrix-fall 3s linear infinite;
+}
+
+/* Adjust font size for different screens */
 @media (min-width: 768px) {
-  html {
+  html, body, form, h1, label, input, h3, p, a {
     font-size: 16px;
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+html, body, form, h1, label, input, h3, p, a {
+  animation: matrix-fall 3s linear 0;
 }
