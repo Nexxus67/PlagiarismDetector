@@ -19,7 +19,6 @@ public class IndexModel : PageModel
 
     public double? PlagiarismScore { get; private set; }
 
-    // Método para dividir el código en n-gramas
     private List<string> GetNGrams(string code, int n)
     {
         List<string> ngrams = new List<string>();
@@ -31,12 +30,11 @@ public class IndexModel : PageModel
         return ngrams;
     }
 
-    // Método para calcular la similitud entre dos códigos usando n-gramas completos
     private double CalculatePlagiarismScore(string code1, string code2, int n)
     {
         if (n <= 0 || n > code1.Length || n > code2.Length)
         {
-            throw new ArgumentException("El valor de n debe estar entre 1 y el tamaño del código más pequeño.");
+            throw new ArgumentException("The value of n has to be between 1 and the smallest code size");
         }
 
         List<string> ngramsCode1 = GetNGrams(code1, n);
@@ -61,7 +59,6 @@ public class IndexModel : PageModel
     {
         if (File1 != null && File2 != null && File1.Length > 0 && File2.Length > 0)
         {
-            // Leer el contenido de los archivos
             string code1, code2;
             using (var reader1 = new StreamReader(File1.OpenReadStream()))
             {
@@ -72,28 +69,24 @@ public class IndexModel : PageModel
                 code2 = reader2.ReadToEnd();
             }
 
-            // Calcular el porcentaje de similitud utilizando el algoritmo de detección de plagio
             PlagiarismScore = CalculatePlagiarismScore(code1, code2, N);
         }
         else
         {
-            ModelState.AddModelError(string.Empty, "Por favor, seleccione dos archivos para comparar.");
+            ModelState.AddModelError(string.Empty, "Please, select 2 C# files to compare.");
         }
     }
 
-    public IActionResult OnPostDownloadReport()
+   public IActionResult OnPostDownloadReport()
+{
+    if (!PlagiarismScore.HasValue)
     {
-        if (!PlagiarismScore.HasValue)
-        {
-            return NotFound();
-        }
-
-        var report = $"Resultado de la comparación de archivos:\nPorcentaje de similitud: {PlagiarismScore.Value}%";
-
-        var byteArray = Encoding.UTF8.GetBytes(report);
-        var stream = new MemoryStream(byteArray);
-
-        return File(stream, "text/plain", "Informe.txt");
+        return NotFound();
     }
-}
 
+    var report = $"Resultado de la comparación de archivos:\nPorcentaje de similitud: {PlagiarismScore.Value}%";
+    var byteArray = Encoding.UTF8.GetBytes(report);
+
+    return new FileContentResult(byteArray, "text/plain");
+}
+}

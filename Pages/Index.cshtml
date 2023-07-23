@@ -7,13 +7,13 @@
 <h1>@ViewData["Title"]</h1>
 
 <form method="post" enctype="multipart/form-data">
-    <label for="file1">Seleccionar archivo 1:</label>
+    <label for="file1">Select file 1:</label>
     <input type="file" id="file1" name="file1" accept=".cs, .txt" />
     <br />
-    <label for="file2">Seleccionar archivo 2:</label>
+    <label for="file2">Select file 2:</label>
     <input type="file" id="file2" name="file2" accept=".cs, .txt" />
     <br />
-    <label for="n">Tamaño de n-gramas:</label>
+    <label for="n">Size of de n-grams:</label>
     <input type="number" id="n" name="n" min="1" max="10" value="3" />
     <br />
     <input type="submit" value="Comparar Archivos" />
@@ -23,6 +23,11 @@
 {
     <h3>Resultado:</h3>
     <p>Porcentaje de similitud: @Model.PlagiarismScore.Value%</p>
-    <p>Descargar informe: <a asp-page-handler="DownloadReport">Informe.txt</a></p>
+    <p>Descargar informe: <a href="javascript:void(0);" id="downloadLink">Report.txt</a></p>
 }
 
+<script>
+    document.getElementById("downloadLink").addEventListener("click", function () {
+        window.location.href = "?handler=DownloadReport";
+    });
+</script>
