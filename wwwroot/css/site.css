@@ -57,8 +57,11 @@ a {
   0% {
     transform: translateY(-100%);
   }
-  100% {
+  50% {
     transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
@@ -75,5 +78,5 @@ html, body, form, h1, label, input, h3, p, a {
 }
 
 html, body, form, h1, label, input, h3, p, a {
-  animation: matrix-fall 3s linear 0;
+  animation: matrix-fall 3s linear 1;
 }
