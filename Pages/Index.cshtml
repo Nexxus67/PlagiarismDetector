@@ -1,0 +1,28 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Plagiarism Detector";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <label for="file1">Seleccionar archivo 1:</label>
+    <input type="file" id="file1" name="file1" accept=".cs, .txt" />
+    <br />
+    <label for="file2">Seleccionar archivo 2:</label>
+    <input type="file" id="file2" name="file2" accept=".cs, .txt" />
+    <br />
+    <label for="n">Tamaño de n-gramas:</label>
+    <input type="number" id="n" name="n" min="1" max="10" value="3" />
+    <br />
+    <input type="submit" value="Comparar Archivos" />
+</form>
+
+@if (Model.PlagiarismScore.HasValue)
+{
+    <h3>Resultado:</h3>
+    <p>Porcentaje de similitud: @Model.PlagiarismScore.Value%</p>
+    <p>Descargar informe: <a asp-page-handler="DownloadReport">Informe.txt</a></p>
+}
+
