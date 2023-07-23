@@ -85,8 +85,13 @@ public class IndexModel : PageModel
     }
 
     var report = $"Resultado de la comparación de archivos:\nPorcentaje de similitud: {PlagiarismScore.Value}%";
-    var byteArray = Encoding.UTF8.GetBytes(report);
 
-    return new FileContentResult(byteArray, "text/plain");
+    // Generate and save the plagiarism report as a file
+    string fileName = "plagiarism_report.txt";
+    string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+    System.IO.File.WriteAllText(filePath, report);
+
+    // Download the file
+    return File(filePath, "text/plain", fileName);
 }
 }
